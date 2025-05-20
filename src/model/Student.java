@@ -1,12 +1,27 @@
 package model;
 
-import java.time.LocalDateTime;
-
-public class Student extends People{
+public class Student extends People {
     private String studentNumber;
     private String university;
-    private int year;
+    private int academicYear;
     private double point;
+    private AcademicPerformance academicPerformance;
+
+    public Student(String studentNumber, String university, int academicYear, double point) {
+        this.studentNumber = studentNumber;
+        this.university = university;
+        this.academicYear = academicYear;
+        this.setPoint(point); // Use setter to update academicPerformance
+    }
+
+    public Student(long id, String name, int yearOfBirth, String address, Double height, Double weight,
+                   String studentNumber, String university, int academicYear, double point) {
+        super(id, name, yearOfBirth, address, height, weight);
+        this.studentNumber = studentNumber;
+        this.university = university;
+        this.academicYear = academicYear;
+        this.setPoint(point); // Use setter to update academicPerformance
+    }
 
     public String getStudentNumber() {
         return studentNumber;
@@ -24,14 +39,12 @@ public class Student extends People{
         this.university = university;
     }
 
-    @Override
-    public int getYear() {
-        return year;
+    public int getAcademicYear() {
+        return academicYear;
     }
 
-    @Override
-    public void setYear(int year) {
-        this.year = year;
+    public void setAcademicYear(int academicYear) {
+        this.academicYear = academicYear;
     }
 
     public double getPoint() {
@@ -40,30 +53,17 @@ public class Student extends People{
 
     public void setPoint(double point) {
         this.point = point;
+        this.academicPerformance = AcademicPerformance.calculate(point);
+    }
+
+    public AcademicPerformance getAcademicPerformance() {
+        return academicPerformance;
     }
 
     @Override
     public String toString() {
-        return "Student{" +
-                "studentNumber='" + studentNumber + '\'' +
-                ", university='" + university + '\'' +
-                ", year=" + year +
-                ", point=" + point +
-                '}';
-    }
-
-    public Student(String studentNumber, String university, int year, double point) {
-        this.studentNumber = studentNumber;
-        this.university = university;
-        this.year = year;
-        this.point = point;
-    }
-
-    public Student(long id, String name, int year, String address, Double height, Double weight, String studentNumber, String university, int year1, double point) {
-        super(id, name, year, address, height, weight);
-        this.studentNumber = studentNumber;
-        this.university = university;
-        this.year = year1;
-        this.point = point;
+        return String.format("| %-8d | %-20s | %-12s | %-20s | %-8.1f | %-8.1f | %-12s | %-20s | %-12d | %-6.2f | %-12s |",
+                getId(), getName(), getYear(), getAddress(), getHeight(), getWeight(),
+                studentNumber, university, academicYear, point, academicPerformance.getDescription());
     }
 }
